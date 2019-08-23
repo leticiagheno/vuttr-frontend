@@ -1,35 +1,53 @@
 <template>
-  <div class="home">
+  <div class="home align-items-center">
     <h1 id="page-title"> VUTTR </h1> 
-    <h2 id="page-subtitle"> Very Useful Tools To Remember </h2> 
-    <div>
-    <input id="search-item" type="search" placeholder="Digite o que está procurando..."/>
-    <input id="tags-check" type="checkbox"/> Search in tags only
-    <button> </button>
+    <h3 id="page-subtitle"> Very Useful Tools To Remember </h3> 
+    <div class="row justify-content-between display-flex ">
+    <div class="row col-8 align-items-center">
+    <input id="search-item" type="search" class="col-6" placeholder="Digite o que está procurando..."/>
+    <input id="tags-check" class="col-1" type="checkbox"/> Search in tags only
+    </div>
+    <div class="col-4">
+      <button class="col-4 align-self-end"  @click="showModal()" > Add </button>
+    </div>
     </div>
     <div
       v-for="tool in results" :key="tool.id" >
       <Card :tool="tool"/>
     </div>
+  <ToolModal
+      v-show="isModalVisible"
+      @close="closeModal"
+  />
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
 import Card from "@/components/Card.vue";
+import ToolModal from '@/components/ToolModal.vue';
 import axios from 'axios';
 
 export default {
 
   name: "home-page",
   components: {
-    Card
+    Card, ToolModal
   },
   data () {
     return {
-      results: []
+      results: [],
+      isModalVisible: false,
     }
   },
+   methods: {
+      showModal() {
+        this.isModalVisible = true;
+      },
+      closeModal() {
+        this.isModalVisible = false;
+      }
+    },
   beforeMount() {
     var vm = this;
     axios
