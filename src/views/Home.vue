@@ -1,24 +1,26 @@
 <template>
   <div class="home align-items-center">
+    <div class="col-12 justify-content-center display-flex" > 
     <h1 id="page-title"> VUTTR </h1> 
     <h3 id="page-subtitle"> Very Useful Tools To Remember </h3> 
-    <div class="row justify-content-between display-flex ">
-    <div class="row col-8 align-items-center">
-    <input id="search-item" type="search" class="col-6" placeholder="Digite o que está procurando..."/>
+    <div class="row col-12 justify-content-between display-flex ">
+    <div class="row col-8 align-items-center" id="items-bar">
+    <input id="search-item" type="search" class="col-6" placeholder="Search..."/>
     <input id="tags-check" class="col-1" type="checkbox"/> Search in tags only
     </div>
-    <div class="col-4">
-      <button class="col-4 align-self-end"  @click="showModal()" > Add </button>
+    <div class="col-2">
+      <button class="col-12 align-self-end" @click="openModal()" > Add </button>
     </div>
     </div>
-    <div
-      v-for="tool in results" :key="tool.id" >
-      <Card :tool="tool"/>
     </div>
-  <ToolModal
-      v-show="isModalVisible"
-      @close="closeModal"
-  />
+      <transition-group name="list-tools" tag="div">
+        <Card v-for="tool in results" v-bind:key="tool._id" :tool="tool" class="list-items" />
+     </transition-group>
+    <ToolModal
+        :showModal.sync="showModal"
+        v-on:newTool="newTool"
+        v-on:removeTool="removeTool"
+    />
   </div>
 </template>
 
@@ -37,15 +39,20 @@ export default {
   data () {
     return {
       results: [],
-      isModalVisible: false,
+      showModal: false
     }
   },
    methods: {
-      showModal() {
-        this.isModalVisible = true;
+      openModal() {
+        this.showModal = true;
+      }, 
+      newTool(response) {
+        this.showModal = false;
+        this.results.push(response.data.result);
       },
-      closeModal() {
-        this.isModalVisible = false;
+      removeTool(response) {
+        var a = this.results.indexOf(response);
+        this.results.splice(a, 1);
       }
     },
   beforeMount() {
@@ -82,6 +89,22 @@ export default {
   opacity: 1;
   width: 403px;
   height: 50px;
+}
+
+.list-item {
+  display: inline-block;
+  margin-right: 10px;
+}
+.list-tools-enter-active, .list-tools-leave-active {
+  transition: all 1s;
+}
+.list-tools-enter, .list-tools-leave-to {
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.list-tools-move {
+  transition: transform 1s;
 }
 
 </style>

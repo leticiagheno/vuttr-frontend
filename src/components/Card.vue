@@ -2,22 +2,48 @@
   <div class="home">
     <div id="card">
       <div class="row justify-content-between">
-        <h3 class="col-8" > <a id="name-item" v-bind:href='tool.link'> {{ tool.title }} </a></h3>
-        <a class="col-4"> <img class="remove-image" src="../assets/Icon-Close-2px.png"/> remove </a>
+        <h3 class="col-md-6 col-sm-4" > <a id="name-item" v-bind:href='tool.link'> {{ tool.title }} </a></h3>
+        <a class="col-md-2 col-sm-2" @click="openRemoveToolModal()"> <img class="remove-image" src="../assets/Icon-Close-2px.png"/> remove </a>
         </div>
     <p class="text-card"> {{ tool.description }} </p>
     <div class="row tag-div"> 
     <b v-for="tag in tool.tags" :key="tag.id" class="text-card"> #{{ tag }} &nbsp; </b> 
     </div>
+    <RemoveToolModal
+        :showModal.sync="showModal"
+        :tool="tool"
+        v-on:removeToolM="removeToolM"
+    />
     </div>
   </div>
 </template>
 
 <script>
+import RemoveToolModal from '@/components/RemoveToolModal.vue';
 
 export default {
   name: "card-item",
-  props: ['tool']
+  components: {
+    RemoveToolModal
+  },
+  props: ['tool'],
+  data () {
+    return {
+      showModal: false
+    }
+  },
+   methods: {
+      openRemoveToolModal() {
+        this.showModal = true;
+      },
+      resetModal() {
+        this.showModal = false;
+      },
+      removeToolM(response) {
+        console.log(response);
+        this.$emit("removeTool", response);
+      }
+    },
 };
 </script>
 

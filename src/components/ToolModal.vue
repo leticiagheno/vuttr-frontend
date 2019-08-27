@@ -1,85 +1,97 @@
 <template>
-  <transition name="modal-fade">
-    <div class="modal-backdrop">
-      <div class="modal"
-        role="dialog"
-        aria-labelledby="modalTitle"
-        aria-describedby="modalDescription"
-      >
-        <p> olá </p>
+  <div v-if="showModal">
+    <transition name="modal">
+      <div class="modal-mask">
+        <div class="modal-wrapper">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"> Add new tool </h5>
+                </div>
+                <div class="modal-body">
+                    <form>
+                      <div>
+                      <label> Tool Name </label>
+                      <input class="col-12 input-area" v-model="title" type="text"/> 
+                      <label> Tool Link </label>
+                      <input class="col-12 input-area" v-model="link" type="text"/>
+                      <label> Tool Description </label>
+                      <textarea class="col-12 input-area" v-model="description"/>
+                      <label> Tags </label>
+                      <input class="col-12 input-area" v-model="tags" type="text"/>
+                      </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" @click="saveTool()" class="btn btn-primary">Add tool</button>
+                </div>
+            </div>
+        </div>
+        </div>
       </div>
-    </div>
-  </transition>
+    </transition>
+  </div>
 </template>
 
 <script>
-  export default {
-    name: 'tool-modal',
-    data () {
-        return {
-            close: false,
-        }
+import axios from 'axios';
+
+export default {
+  name: "tool-modal",
+  props: ['showModal'],
+  data() {
+    return {
+      title: '',
+      link: '',
+      description: '', 
+      tags: ''
     }
-  };
+  },
+  methods: {
+    saveTool() {
+      axios.post('http://localhost:3000/tools', { title: this.title, 
+        link: this.link, 
+        description: this.description,
+        tags: this.tags.split(" ") 
+      })
+      .then((response) => {
+        this.$emit('newTool', response);
+        Object.assign(this.$data, this.$options.data());
+      });  
+      this.$emit('update:showModal', false);
+    }
+  }
+};
+
 </script>
 
-<style>
-  .modal-backdrop {
-    position: block;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background-color: rgba(0, 0, 0, 0.3);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+<style scoped>
 
-  .modal {
-    background: #FFFFFF;
-    box-shadow: 2px 2px 20px 1px;
-    overflow-x: auto;
-    display: flex;
-    flex-direction: column;
-  }
+.input-area {
+  margin-bottom: 10px;
+}
 
-  .modal-header,
-  .modal-footer {
-    padding: 15px;
-    display: flex;
-  }
+.modal-body {
+  text-align: left;
+  display: block;
+  letter-spacing: 0.6px;
+  opacity: 1;
+}
 
-  .modal-header {
-    border-bottom: 1px solid #eeeeee;
-    color: #4AAE9B;
-    justify-content: space-between;
-  }
+.modal-mask {
+  position: fixed;
+  z-index: 9998;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, .5);
+  display: table;
+  transition: opacity .3s ease;
+}
 
-  .modal-footer {
-    border-top: 1px solid #eeeeee;
-    justify-content: flex-end;
-  }
-
-  .modal-body {
-    position: relative;
-    padding: 20px 10px;
-  }
-
-  .btn-close {
-    border: none;
-    font-size: 20px;
-    padding: 20px;
-    cursor: pointer;
-    font-weight: bold;
-    color: #4AAE9B;
-    background: transparent;
-  }
-
-  .btn-green {
-    color: white;
-    background: #4AAE9B;
-    border: 1px solid #4AAE9B;
-    border-radius: 2px;
-  }
+.modal-wrapper {
+  display: table-cell;
+  vertical-align: middle;
+}
 </style>
