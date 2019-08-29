@@ -1,12 +1,12 @@
 <template>
   <div class="home align-items-center">
-    <div class="col-12 justify-content-center display-flex" > 
-    <h1 id="page-title"> VUTTR </h1> 
-    <h3 id="page-subtitle"> Very Useful Tools To Remember </h3> 
-    <div class="row col-12 justify-content-between display-flex ">
-    <div class="row col-8 align-items-center" id="items-bar">
-    <input id="search-item" type="search" class="col-6" placeholder="Search..."/>
-    <input id="tags-check" class="col-1" type="checkbox"/> Search in tags only
+      <div class="col-12 justify-content-center display-flex" > 
+      <h1 id="page-title"> VUTTR </h1> 
+      <h3 id="page-subtitle"> Very Useful Tools To Remember </h3> 
+      <div class="row col-12 justify-content-between display-flex ">
+      <div class="row col-8 align-items-center" id="items-bar">
+      <input id="search-item" type="search" @input="searchTool" v-model="textSearch" class="col-6" placeholder="Search..."/>
+      <input id="tags-check" class="col-1" v-model="checked" type="checkbox"/> Search in tags only
     </div>
     <div class="col-2">
       <button class="col-12 align-self-end" @click="openModal()" > Add </button>
@@ -39,29 +39,40 @@ export default {
   data () {
     return {
       results: [],
+      checked: false,
+      textSearch: '',
       showModal: false
     }
   },
   created(){
-        EventBus.$on('deleteTool', (tool) => {
-            var index = this.results.indexOf(tool);
-            this.results.splice(index, 1);
-        });
-    },
-   methods: {
+    EventBus.$on('deleteTool', (tool) => {
+        var index = this.results.indexOf(tool);
+        this.results.splice(index, 1);
+    });
+  },
+  methods: {
       openModal() {
         this.showModal = true;
       }, 
       newTool(response) {
         this.showModal = false;
         this.results.push(response.data.result);
+      },
+      searchTool() {
+        if (this.checked) {
+          alert(this.textSearch);
+        } 
+        else {
+          alert('aa');
+        }
+        
       }
     },
   beforeMount() {
     var vm = this;
     axios
-    .get('http://localhost:3000/tools')
-    .then(response => {vm.results = response.data.result})
+      .get('http://localhost:3000/tools')
+      .then(response => {vm.results = response.data.result})
   }
 };
 </script>
