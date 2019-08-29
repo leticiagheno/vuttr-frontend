@@ -7,6 +7,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 Vue.config.productionTip = false;
 
+export const EventBus = new Vue();
+
 new Vue({
   router,
   store,

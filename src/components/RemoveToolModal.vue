@@ -29,6 +29,7 @@
 
 <script>
 import axios from 'axios';
+import {EventBus} from '../main.js'
 
 export default {
   name: "remove-tool-modal",
@@ -38,11 +39,10 @@ export default {
         axios
         .delete('http://localhost:3000/tools/' + this.tool._id);
         this.$emit('update:showModal', false);
-        this.$emit('removeToolM', this.tool);
+        EventBus.$emit('deleteTool', this.tool);
     }
   }
 };
-
 
 </script>
 

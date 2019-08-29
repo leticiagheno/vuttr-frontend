@@ -12,7 +12,7 @@
     <RemoveToolModal
         :showModal.sync="showModal"
         :tool="tool"
-        v-on:removeToolM="removeToolM"
+        :key="tool._id"
     />
     </div>
   </div>
@@ -38,10 +38,6 @@ export default {
       },
       resetModal() {
         this.showModal = false;
-      },
-      removeToolM(response) {
-        console.log(response);
-        this.$emit("removeTool", response);
       }
     },
 };

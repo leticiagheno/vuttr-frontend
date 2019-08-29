@@ -19,7 +19,6 @@
     <ToolModal
         :showModal.sync="showModal"
         v-on:newTool="newTool"
-        v-on:removeTool="removeTool"
     />
   </div>
 </template>
@@ -29,6 +28,7 @@
 import Card from "@/components/Card.vue";
 import ToolModal from '@/components/ToolModal.vue';
 import axios from 'axios';
+import {EventBus} from '../main.js';
 
 export default {
 
@@ -42,6 +42,12 @@ export default {
       showModal: false
     }
   },
+  created(){
+        EventBus.$on('deleteTool', (tool) => {
+            var index = this.results.indexOf(tool);
+            this.results.splice(index, 1);
+        });
+    },
    methods: {
       openModal() {
         this.showModal = true;
@@ -49,10 +55,6 @@ export default {
       newTool(response) {
         this.showModal = false;
         this.results.push(response.data.result);
-      },
-      removeTool(response) {
-        var a = this.results.indexOf(response);
-        this.results.splice(a, 1);
       }
     },
   beforeMount() {
