@@ -112,34 +112,20 @@ export default {
 .add-button {
   background: #E1E7FD 0% 0% no-repeat padding-box;
   border-radius: 5px;
-  opacity: 1;
-  text-align: center;
-  font: Semibold 18px/24px Source Sans Pro;
-  letter-spacing: 0.36px;
+  border: transparent;
   color: #365DF0;
+  font: Semibold 18px/24px Source Sans Pro;
   opacity: 1;
+  letter-spacing: 0.36px;
+  text-align: center;
 }
 
 .add-button:hover {
   background: #CAD6FC 0% 0% no-repeat padding-box;
-  border-radius: 5px;
-  opacity: 1;
-  text-align: center;
-  font: Semibold 18px/24px Source Sans Pro;
-  letter-spacing: 0.36px;
-  color: #365DF0;
-  opacity: 1;
 }
 
 .add-button:active {
   background: #B9C6FA 0% 0% no-repeat padding-box;
-  border-radius: 5px;
-  opacity: 1;
-  text-align: center;
-  font: Semibold 18px/24px Source Sans Pro;
-  letter-spacing: 0.36px;
-  color: #365DF0;
-  opacity: 1;
 }
 
 .items-bar {

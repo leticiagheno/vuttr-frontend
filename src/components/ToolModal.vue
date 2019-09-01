@@ -18,15 +18,35 @@
                     <form @submit="saveTool">
                       <div>
                       <label> Tool Name </label>
-                      <input class="col-sm-12 input-area" v-model="title" type="text" required oninvalid="You must fill out the form!"/> 
+                      <input 
+                        class="col-sm-12 input-area form-control" 
+                        v-model="title" 
+                        type="text" 
+                        required
+                      /> 
                       <label> Tool Link </label>
-                      <input class="col-sm-12 input-area" v-model="link" type="text" required />
+                      <input 
+                        class="col-sm-12 input-area form-control" 
+                        v-model="link" 
+                        type="text" 
+                        required 
+                      />
                       <label> Tool Description </label>
-                      <textarea class="col-sm-12 text-area" v-model="description"/>
+                      <textarea 
+                        class="col-sm-12 text-area form-control" 
+                        v-model="description"
+                      />
                       <label> Tags </label>
-                      <input class="col-sm-12 input-area" v-model="tags" type="text"/>
+                      <input-tag
+                        v-model="tagsAdd"
+                        class="col-sm-12 form-control input-area"
+                      />
                       <div class="row justify-content-end">
-                        <input class="col-sm-6 col-md-4 button-primary-neutral" type="submit" value="Add tool">
+                        <input 
+                          class="col-sm-6 col-md-4 button-primary-neutral" 
+                          type="submit" 
+                          value="Add tool"
+                        />
                       </div>
                       </div> 
                     </form>
@@ -41,24 +61,29 @@
 
 <script>
 import axios from 'axios';
+import InputTag from 'vue-input-tag';
 
 export default {
   name: "tool-modal",
   props: ['showModal'],
+  components: {
+    InputTag,
+  },
   data() {
     return {
       title: '',
       link: '',
       description: '', 
-      tags: ''
+      tags: '', 
+      tagsAdd: []
     }
   },
   methods: {
     saveTool() {
-    axios.post('http://localhost:3000/tools', { title: this.title, 
+      axios.post('http://localhost:3000/tools', { title: this.title, 
         link: this.link, 
         description: this.description,
-        tags: this.tags.split(" ")
+        tags: this.tagsAdd
       })
       .then((response) => {
         this.$emit('newTool', response);
@@ -165,6 +190,7 @@ export default {
 .button-primary-neutral {
   background: #365DF0 0% 0% no-repeat padding-box;
   color: white;
+  border: transparent;
   border-radius: 5px;
   opacity: 1;
   margin: 0px 15px;
@@ -172,18 +198,10 @@ export default {
 
 .button-primary-neutral:hover {
   background: #2F55CC 0% 0% no-repeat padding-box;
-  color: white;
-  border-radius: 5px;
-  opacity: 1;
-  margin: 0px 15px;
 }
 
 .button-primary-neutral:focus {
   background: #365DF0 0% 0% no-repeat padding-box;
-  color: white;
-  border-radius: 5px;
-  opacity: 1;
-  margin: 0px 15px;
 }
 
 </style>
