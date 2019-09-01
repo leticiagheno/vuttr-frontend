@@ -49,6 +49,8 @@ import Card from "@/components/Card.vue";
 import ToolModal from '@/components/ToolModal.vue';
 import axios from 'axios';
 import {EventBus} from '../main.js';
+import * as jwt from 'jsonwebtoken';
+import router from '../router';
 
 export default {
 
@@ -99,9 +101,21 @@ export default {
       }
     },
   beforeMount() {
+    var accessToken = localStorage.getItem("access-token");
+
+    jwt.verify(accessToken, "desafio bossaBox", function(err, decoded) {
+      if (err) {
+        router.push({ name: 'signin' }) 
+      }
+    });
+    
+    var config = {
+      headers: {'x-access-token': accessToken }
+    };
+
     var vm = this;
     axios
-      .get('http://localhost:3000/tools')
+      .get('http://localhost:3000/tools', config)
       .then(response => {vm.results = response.data.result})
   }
 };
