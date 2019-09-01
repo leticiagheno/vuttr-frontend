@@ -36,11 +36,14 @@
                         class="col-sm-12 text-area form-control" 
                         v-model="description"
                       />
-                      <label> Tags </label>
+                      <div class="row col-sm-12">
+                        <label> Tags </label>
+                        <img class="help-image" v-bind:title="tagMessage" src="../assets/Icon-Learn-2px.png"/>
+                      </div>
                       <input-tag
-                        v-model="tagsAdd"
-                        class="col-sm-12 form-control input-area"
-                      />
+                          v-model="tagsAdd"
+                          class="col-sm-12 form-control input-area"
+                        />
                       <div class="row justify-content-end">
                         <input 
                           class="col-sm-6 col-md-4 button-primary-neutral" 
@@ -75,7 +78,8 @@ export default {
       link: '',
       description: '', 
       tags: '', 
-      tagsAdd: []
+      tagsAdd: [],
+      tagMessage: "Para adicionar uma tag, basta escrever e após, dar enter."
     }
   },
   methods: {
@@ -112,6 +116,14 @@ export default {
   width: 15px;
 }
 
+.help-image {
+  background: transparent 0% 0% no-repeat padding-box;
+  opacity: 1;
+  height: 17px;
+  width: 17px;
+  margin-left: 7px;
+}
+
 .add-image {
   background: transparent 0% 0% no-repeat padding-box;
   opacity: 1;
@@ -143,7 +155,7 @@ export default {
   border: 1px solid #DEDCE1;
   border-radius: 5px;
   opacity: 1;
-  padding: 0px 5px;
+  padding: 5px 5px;
 }
 
 
@@ -153,7 +165,7 @@ export default {
   border: 1px solid #EBEAED;
   border-radius: 5px;
   opacity: 1;
-  padding: 0px 5px;
+  padding: 5px 5px;
 }
 
 .text-area:focus {
