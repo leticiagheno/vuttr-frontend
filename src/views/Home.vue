@@ -63,10 +63,6 @@ import {EventBus} from "../main.js";
 import * as jwt from "jsonwebtoken";
 import router from "../router";
 
-var config = {
-  headers: { "x-access-token": localStorage.getItem("access-token") }
-};
-
 export default {
   name: "home-page",
   components: {
@@ -96,6 +92,10 @@ export default {
       this.results.push(response.data.result);
     },
     searchTool() {
+      var config = {
+        headers: { "x-access-token": localStorage.getItem("access-token") }
+      };
+
       var vm = this;
       if (this.textSearch === "") {
         axios
@@ -123,6 +123,9 @@ export default {
     }
   },
   beforeMount() {
+    var config = {
+      headers: { "x-access-token": localStorage.getItem("access-token") }
+    };
     var accessToken = localStorage.getItem("access-token");
     var vm = this;
 
