@@ -3,59 +3,59 @@
     <transition name="modal">
       <div class="modal-mask">
         <div class="modal-wrapper">
-        <div class="modal-dialog" role="document">
+          <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <div class="modal-header align-center justify-content-between align-self-center col-12">
-                  <div class="row col-8 align-center">
-                    <img class="add-image" src="../assets/Icon-Close-2px.png"/>
-                    <h5 class="modal-title align-start"> Add new tool </h5>
-                  </div>
-                  <div class="col-1">
-                    <img class="close-image" @click="closeModal" src="../assets/Icon-Close-2px.png"/>
-                  </div>
+              <div class="modal-header align-center justify-content-between align-self-center col-12">
+                <div class="row col-8 align-center">
+                  <img class="add-image" src="../assets/Icon-Close-2px.png"/>
+                  <h5 class="modal-title align-start"> Add new tool </h5>
                 </div>
-                <div class="modal-body">
-                    <form @submit="saveTool">
-                      <div>
-                      <label> Tool Name </label>
-                      <input 
-                        class="col-sm-12 input-area form-control" 
-                        v-model="title" 
-                        type="text" 
-                        required
-                      /> 
-                      <label> Tool Link </label>
-                      <input 
-                        class="col-sm-12 input-area form-control" 
-                        v-model="link" 
-                        type="text" 
-                        required 
-                      />
-                      <label> Tool Description </label>
-                      <textarea 
-                        class="col-sm-12 text-area form-control" 
-                        v-model="description"
-                      />
-                      <div class="row col-sm-12">
-                        <label> Tags </label>
-                        <img class="help-image" v-bind:title="tagMessage" src="../assets/Icon-Learn-2px.png"/>
-                      </div>
-                      <input-tag
-                          v-model="tagsAdd"
-                          class="col-sm-12 form-control input-area"
-                        />
-                      <div class="row justify-content-end">
-                        <input 
-                          class="col-sm-6 col-md-4 button-primary-neutral" 
-                          type="submit" 
-                          value="Add tool"
-                        />
-                      </div>
-                      </div> 
-                    </form>
+                <div class="col-1">
+                  <img class="close-image" @click="closeModal" src="../assets/Icon-Close-2px.png"/>
                 </div>
+              </div>
+              <div class="modal-body">
+                <form @submit="saveTool">
+                  <div>
+                    <label> Tool Name </label>
+                    <input 
+                      class="col-sm-12 input-area form-control" 
+                      v-model="title" 
+                      type="text" 
+                      required
+                    /> 
+                    <label> Tool Link </label>
+                    <input 
+                      class="col-sm-12 input-area form-control" 
+                      v-model="link" 
+                      type="text" 
+                      required 
+                    />
+                    <label> Tool Description </label>
+                    <textarea 
+                      class="col-sm-12 text-area form-control" 
+                      v-model="description"
+                    />
+                    <div class="row col-sm-12">
+                      <label> Tags </label>
+                      <img class="help-image" v-bind:title="tagMessage" src="../assets/Icon-Learn-2px.png"/>
+                    </div>
+                    <input-tag
+                      v-model="tagsAdd"
+                      class="col-sm-12 form-control input-area"
+                    />
+                    <div class="row justify-content-end">
+                      <input 
+                        class="col-sm-6 col-md-4 button-primary-neutral" 
+                        type="submit" 
+                        value="Add tool"
+                      />
+                    </div>
+                  </div> 
+                </form>
+              </div>
             </div>
-        </div>
+          </div>
         </div>
       </div>
     </transition>
@@ -63,48 +63,51 @@
 </template>
 
 <script>
-import axios from 'axios';
-import InputTag from 'vue-input-tag';
+import axios from "axios";
+import InputTag from "vue-input-tag";
 
 export default {
   name: "tool-modal",
-  props: ['showModal'],
+  props: ["showModal"],
   components: {
-    InputTag,
+    InputTag
   },
   data() {
     return {
-      title: '',
-      link: '',
-      description: '', 
-      tags: '', 
+      title: "",
+      link: "",
+      description: "", 
+      tags: "", 
       tagsAdd: [],
       tagMessage: "Para adicionar uma tag, basta escrever e após, dar enter."
-    }
+    };
   },
   methods: {
     saveTool() {
-      axios.post('http://localhost:3000/tools', { title: this.title, 
+      var config = {
+        headers: {"x-access-token": localStorage.getItem("access-token") }
+      }; 
+      axios.post("http://localhost:3000/tools", { 
+        title: this.title, 
         link: this.link, 
         description: this.description,
         tags: this.tagsAdd
-      })
+      }, 
+      config)
       .then((response) => {
-        this.$emit('newTool', response);
+        this.$emit("newTool", response);
         Object.assign(this.$data, this.$options.data());
-      });  
-      this.$emit('update:showModal', false);
-    }, 
+      });
+      this.$emit("update:showModal", false);
+    },
     closeModal() {
-      this.$emit('update:showModal', false);
+      this.$emit("update:showModal", false);
     }
   }
 };
-
 </script>
 
 <style scoped>
-
 .align-center {
   align-items: center;
 }
@@ -135,42 +138,41 @@ export default {
 
 .input-area {
   margin-bottom: 10px;
-  background: #F5F4F6 0% 0% no-repeat padding-box;
-  border: 1px solid #EBEAED;  
+  background: #f5f4f6 0% 0% no-repeat padding-box;
+  border: 1px solid #ebeaed;
   border-radius: 5px;
   opacity: 1;
   padding: 0px 5px;
 }
 
 .input-area:focus {
-  background: #EBEAED 0% 0% no-repeat padding-box;
-  border: 1px solid #DEDCE1;
+  background: #ebeaed 0% 0% no-repeat padding-box;
+  border: 1px solid #dedce1;
   border-radius: 5px;
   opacity: 1;
   padding: 0px 5px;
 }
 
 .input-area {
-  background: #EBEAED 0% 0% no-repeat padding-box;
-  border: 1px solid #DEDCE1;
+  background: #ebeaed 0% 0% no-repeat padding-box;
+  border: 1px solid #dedce1;
   border-radius: 5px;
   opacity: 1;
   padding: 5px 5px;
 }
 
-
 .text-area {
   margin-bottom: 10px;
-  background: #F5F4F6 0% 0% no-repeat padding-box;
-  border: 1px solid #EBEAED;
+  background: #f5f4f6 0% 0% no-repeat padding-box;
+  border: 1px solid #ebeaed;
   border-radius: 5px;
   opacity: 1;
   padding: 5px 5px;
 }
 
 .text-area:focus {
-  background: #EBEAED 0% 0% no-repeat padding-box;
-  border: 1px solid #DEDCE1;
+  background: #ebeaed 0% 0% no-repeat padding-box;
+  border: 1px solid #dedce1;
   border-radius: 5px;
   opacity: 1;
 }
@@ -200,7 +202,7 @@ export default {
 }
 
 .button-primary-neutral {
-  background: #365DF0 0% 0% no-repeat padding-box;
+  background: #365df0 0% 0% no-repeat padding-box;
   color: white;
   border: transparent;
   border-radius: 5px;
@@ -209,11 +211,10 @@ export default {
 }
 
 .button-primary-neutral:hover {
-  background: #2F55CC 0% 0% no-repeat padding-box;
+  background: #2f55cc 0% 0% no-repeat padding-box;
 }
 
 .button-primary-neutral:focus {
-  background: #365DF0 0% 0% no-repeat padding-box;
+  background: #365df0 0% 0% no-repeat padding-box;
 }
-
 </style>

@@ -2,7 +2,7 @@
 <div class="col-sm-6 container d-flex align-items-center justify-content-center">
     <div class="login-card">
         <h2 class="title"> Desafio BossaBox - SignUp</h2>
-        <form @submit="createUser" novalidate="true">
+        <form @submit="createUser">
             <div class='row'>
                 <div class='col'>
                     <label> Name </label>
@@ -10,7 +10,12 @@
             </div>
             <div class='row'>
                 <div class='col'>
-                    <input type="text" v-model="nome" class="input-text" required/>
+                    <input 
+                        type="text" 
+                        v-model="nome" 
+                        class="input-text" 
+                        required
+                    />
                 </div>
             </div>
             <div class='row'>
@@ -20,7 +25,12 @@
             </div>
             <div class='row'>
                 <div class='col'>
-                    <input type="text" v-model="email" class="input-text" required/>  
+                    <input 
+                        type="text" 
+                        v-model="email" 
+                        class="input-text" 
+                        required
+                    />  
                 </div>
             </div>
             <div class='row'>
@@ -30,13 +40,27 @@
             </div>
             <div class='row'>
                 <div class='col'>
-                    <input type="password" v-model="senha" class="input-text" required/>      
+                    <input 
+                        type="password" 
+                        v-model="senha" 
+                        class="input-text" 
+                        required
+                    />      
                 </div>
             </div>
             <div class='row'>
                 <div class='col'>
-                    <input type="button" @click="backClicked" class="back-button" value="Back"/>
-                    <input type="submit" class="submit-button" value="Create"/>  
+                    <input 
+                        type="button" 
+                        @click="backClicked" 
+                        class="back-button" 
+                        value="Back"
+                    />
+                    <input 
+                        type="submit" 
+                        class="submit-button" 
+                        value="Create"
+                    />  
                 </div>
             </div>
         </form>
@@ -58,33 +82,27 @@ export default {
     }
   },
   methods: {
-      createUser() {
+    createUser() {
         axios.post('http://localhost:3000/signup', { nome: this.nome, 
             email: this.email, 
             senha: this.senha
         })
         .then((response) => {
-            alert("Usuário criado com sucesso.");
-            router.push({ name: 'signin' }) 
+            alert("Created with success.");
+            router.push({ name: "signin" }); 
         })
         .catch((response) => {
-            if (response.status === 409) {
-                alert("Usuário já existente.");
-            } 
-            else {
-                alert("Problemas ao criar usuário.");
-            }
+            alert("User already created.");
         });   
     },
     backClicked(){
-        router.push({ name: 'signin' }) 
+        router.push({ name: 'signin' }); 
     }
   }
 };
 </script>
 
 <style scoped>
-
 .title {
     text-align: left;
     font: Semibold 36px/40px Source Sans Pro;
