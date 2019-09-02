@@ -30,3 +30,8 @@
 > npm run serve
 
 4. O projeto estará rodando na porta **8080**.
+
+## Outros
+
+1. O front do projeto pode ser acessado neste link [aqui](https://leticia-vuttr.netlify.com/#/). 
+2. Porém, para acesso, é necessário que a [api](https://github.com/leticiagheno/vuttr-backend) esteja rodando localmente.
